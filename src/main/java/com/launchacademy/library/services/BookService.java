@@ -27,22 +27,26 @@ public class BookService {
         return bookRepo.findById(id).orElseThrow(()-> new BookNotFoundException());
     }
 
-    //public void addToList(Book book) {
-       // bookRepo.save(book);
-    //}
+  //  public void addToList(Book book) {
+   //    bookRepo.save(book);
+   // }
 
-    public Book save (Map<String, String> book) {
-        Book newBook = new Book();
-        newBook.setTitle(book.get("title"));
-        newBook.setAuthor(book.get("author"));
-        newBook.setGenre(book.get("genre"));
-        newBook.setTotalPages(Integer.parseInt(book.get("totalPages")));
-        newBook.setIsbn(book.get("isbn"));
-        newBook.setRating(Integer.parseInt(book.get("rating")));
-
-        return bookRepo.save(newBook);
-
+    public Book save (Book book) {
+        return bookRepo.save(book);
     }
+
+
+    //    Book newBook = new Book();
+    //    newBook.setTitle(book.get("title"));
+     //   newBook.setAuthor(book.get("author"));
+    //    newBook.setGenre(book.get("genre"));
+     //   newBook.setTotalPages(Integer.parseInt(book.get("totalPages")));
+      //  newBook.setIsbn(book.get("isbn"));
+     //   newBook.setRating(Integer.parseInt(book.get("rating")));
+
+      //  return bookRepo.save(newBook);
+
+   // }
     @NoArgsConstructor
     private class BookNotFoundException extends RuntimeException {
     }

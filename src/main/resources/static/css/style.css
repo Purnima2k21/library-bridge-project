@@ -1,6 +1,16 @@
+body {
+  background-color: #92B9E3;
+}
+
 .book_app {
   max-width: 40%;
   margin: auto;
   border-radius: 2%;
   padding: 15px;
+}
+
+.cell {
+  max-width: 40%;
+  margin: auto;
+  padding-top: 1rem;
 }

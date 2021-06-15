@@ -1,15 +1,12 @@
 package com.launchacademy.library.models;
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
-
 
 @Entity
 @Table(name = "books")
@@ -44,13 +41,14 @@ public class Book {
     private Integer totalPages;
 
     @NotNull(message = "Please enter the isbn number")
-    @Pattern(regexp="[\\d]{13}")
-
-    //@Digits
+    @Size(min=13, max=13)
+    // @Pattern(regexp="[\\d]{13}")
+    // @Digits
     @Column(name = "isbn", nullable = false)
     private String isbn;
 
     @Column(name = "rating")
     private Integer rating;
 }
+
 

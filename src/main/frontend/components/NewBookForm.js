@@ -3,7 +3,6 @@ import _ from "lodash"
 import Error from "./Error"
 import { Redirect } from "react-router-dom"
 
-
 const NewBookForm = props => {
   const [newBook, setNewBook] = useState({
     title: "",
@@ -13,9 +12,8 @@ const NewBookForm = props => {
     isbn: "",
     rating: ""
   });
-  const [errors, setErrors] = useState([]);
+  const [errors, setErrors] = useState({});
   const [redirect, setRedirect] = useState(false);
-
   const addNewBook = async () => {
     try {
       const response = await fetch("/api/v1/books", {
@@ -26,16 +24,18 @@ const NewBookForm = props => {
         body: JSON.stringify(newBook),
       });
       if (!response.ok) {
+
         if (response.status === 422) {
           const data = await response.json();
           return setErrors(data.errors);
         } else {
           const errorMessage = `${response.status} (${response.statusText})`;
           const error = new Error(errorMessage);
-          throw error;
+          throw (error);
         }
       } else {
         const data = await response.json();
+
         if (data) {
           setRedirect(true);
         }
@@ -43,7 +43,7 @@ const NewBookForm = props => {
     } catch (error) {
       console.error(`Error in fetch: ${error}`);
     }
-  };
+    };
   const handleInput = event => {
     setNewBook({
       ...newBook,
@@ -59,7 +59,7 @@ const NewBookForm = props => {
       }
     });
     setErrors(submissionErrors);
-    return _.isEmpty(submissionErrors);
+   return _.isEmpty(submissionErrors);
   };
   const handleSubmit = event => {
     event.preventDefault();
@@ -67,7 +67,6 @@ const NewBookForm = props => {
       addNewBook();
     }
   };
-
   if (redirect) {
     return <Redirect to="/books" />;
   }
@@ -80,7 +79,6 @@ const NewBookForm = props => {
             <div className="cell">
               <Error errors={errors} />
             </div>
-
             <div className="row">
               <div className="medium-6 columns">
                 <label htmlFor="title">
@@ -94,7 +92,6 @@ const NewBookForm = props => {
                   />
                 </label>
               </div>
-
               <div className="medium-6 columns">
                 <label htmlFor="author">
                   Author:
@@ -108,7 +105,6 @@ const NewBookForm = props => {
                 </label>
               </div>
             </div>
-
             <div className="row">
               <div className="medium-6 columns">
                 <label htmlFor="genre">
@@ -122,13 +118,12 @@ const NewBookForm = props => {
                   />
                 </label>
               </div>
-
               <div className="medium-6 columns">
                 <label htmlFor="totalPages">
                   Total Pages:
                   <input
                     id="totalPages"
-                    type="text"
+                    type="number"
                     name="totalPages"
                     onChange={handleInput}
                     value={newBook.totalPages}
@@ -136,21 +131,19 @@ const NewBookForm = props => {
                 </label>
               </div>
             </div>
-
             <div className="row">
               <div className="medium-6 columns">
                 <label htmlFor="isbn">
                   ISBN:
                   <input
                     id="isbn"
-                    type="text"
+                    type="number"
                     name="isbn"
                     onChange={handleInput}
                     value={newBook.isbn}
                   />
                 </label>
               </div>
-
               <div className="medium-6 columns">
                 <label htmlFor="rating">
                   Rating:
@@ -164,7 +157,6 @@ const NewBookForm = props => {
                 </label>
               </div>
             </div>
-
             <input className="button round" type="submit" value="Submit" />
           </div>
         </div>
