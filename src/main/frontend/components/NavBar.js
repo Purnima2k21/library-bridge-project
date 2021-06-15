@@ -1,8 +1,7 @@
-import React from "react"
-import { Link } from "react-router-dom"
+import React from "react";
+import { Link } from "react-router-dom";
 
 const NavBar = () => {
-
   return (
     <div className="title-bar">
       <div className="top-bar-left">
@@ -16,7 +15,7 @@ const NavBar = () => {
         </ul>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default NavBar
+export default NavBar;

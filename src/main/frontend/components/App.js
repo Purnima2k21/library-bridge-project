@@ -10,15 +10,12 @@ import NavBar from "./NavBar.js";
 
 const App = (props) => {
   return (
-    //<h1>Welcome to the launch library!</h1>
     <BrowserRouter>
       <NavBar />
       <Switch>
-
         <Route exact path="/books" component={BookList} />
         <Route exact path="/books/new" component={NewBookForm} />
         <Route exact path="/books/:id" component={BookShow} />
-
       </Switch>
     </BrowserRouter>
   );

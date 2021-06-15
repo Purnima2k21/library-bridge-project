@@ -2,10 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const BookTile = (props) => {
-
   const { id, title } = props.book;
-  console.log(title)
-
+  console.log(title);
 
   return (
     <div className="book-tile">

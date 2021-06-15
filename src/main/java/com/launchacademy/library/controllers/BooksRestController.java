@@ -10,12 +10,10 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/books")
 public class BooksRestController {
-
     private BookService bookService;
 
     @Autowired
@@ -28,18 +26,18 @@ public class BooksRestController {
         return bookService.findAll();
     }
 
-    @GetMapping ("/{id}")
-    public Book showBook(@PathVariable Integer id) {
+    @GetMapping("/{id}")
+    public Book getBook(@PathVariable Integer id) {
         return bookService.findById(id);
     }
 
-   @PostMapping
-    public ResponseEntity saveBook(@Valid @RequestBody Map<String, String> book, BindingResult bindingResult) {
+    @PostMapping
+    public ResponseEntity create(@RequestBody @Valid Book book, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return new ResponseEntity <List> (bindingResult.getAllErrors(), HttpStatus.NOT_ACCEPTABLE);
-     } else {
+            System.out.println(bindingResult.getAllErrors());
+            return new ResponseEntity<List>(bindingResult.getAllErrors(), HttpStatus.UNPROCESSABLE_ENTITY);
+        } else {
             return new ResponseEntity<Book>(bookService.save(book), HttpStatus.CREATED);
-       }
+        }
     }
-
 }
