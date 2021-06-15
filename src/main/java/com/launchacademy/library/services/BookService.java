@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class BookService {
@@ -19,34 +18,19 @@ public class BookService {
     public BookService(BookRepository bookRepo) {
         this.bookRepo = bookRepo;
     }
+
     public List<Book> findAll() {
         return (List<Book>) bookRepo.findAll();
     }
 
     public Book findById(@PathVariable Integer id) {
-        return bookRepo.findById(id).orElseThrow(()-> new BookNotFoundException());
+        return bookRepo.findById(id).orElseThrow(() -> new BookNotFoundException());
     }
 
-  //  public void addToList(Book book) {
-   //    bookRepo.save(book);
-   // }
-
-    public Book save (Book book) {
+    public Book save(Book book) {
         return bookRepo.save(book);
     }
 
-
-    //    Book newBook = new Book();
-    //    newBook.setTitle(book.get("title"));
-     //   newBook.setAuthor(book.get("author"));
-    //    newBook.setGenre(book.get("genre"));
-     //   newBook.setTotalPages(Integer.parseInt(book.get("totalPages")));
-      //  newBook.setIsbn(book.get("isbn"));
-     //   newBook.setRating(Integer.parseInt(book.get("rating")));
-
-      //  return bookRepo.save(newBook);
-
-   // }
     @NoArgsConstructor
     private class BookNotFoundException extends RuntimeException {
     }
@@ -56,9 +40,8 @@ public class BookService {
         @ResponseBody
         @ExceptionHandler(BookNotFoundException.class)
         @ResponseStatus(HttpStatus.NOT_FOUND)
-        String bookNotFoundHandler(BookNotFoundException ex){
+        String bookNotFoundHandler(BookNotFoundException ex) {
             return ex.getMessage();
         }
     }
-
 }

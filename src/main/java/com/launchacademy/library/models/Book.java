@@ -1,12 +1,11 @@
 package com.launchacademy.library.models;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Positive;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 
 @Entity
 @Table(name = "books")
@@ -20,30 +19,28 @@ public class Book {
     @Column(name = "id", nullable = false, unique = true)
     private Integer id;
 
-    @NotNull(message = "Please enter the title of the book" )
-    @Size(max=200)
+    @NotNull(message = "Please enter the title of the book")
+    @Size(max = 200)
     @Column(name = "title", nullable = false)
     private String title;
 
     @NotNull(message = "Please enter the name of the author")
-    @Size(max=200)
+    @Size(max = 200)
     @Column(name = "author", nullable = false)
     private String author;
 
     @NotNull(message = "Please enter the genre of the book")
-    @Size(max=50)
+    @Size(max = 50)
     @Column(name = "genre", nullable = false)
     private String genre;
 
     @NotNull(message = "Please enter the total number of pages")
-    @Positive
-    @Column( name = "total_pages", nullable = false)
+    @Min(value = 1)
+    @Column(name = "total_pages", nullable = false)
     private Integer totalPages;
 
     @NotNull(message = "Please enter the isbn number")
-    @Size(min=13, max=13)
-    // @Pattern(regexp="[\\d]{13}")
-    // @Digits
+    @Size(min = 13, max = 13)
     @Column(name = "isbn", nullable = false)
     private String isbn;
 

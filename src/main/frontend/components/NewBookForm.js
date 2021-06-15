@@ -1,37 +1,47 @@
 import React, { useState } from "react";
-import _ from "lodash"
-import Error from "./Error"
-import { Redirect } from "react-router-dom"
+import _ from "lodash";
+import Error from "./Error";
+import { Redirect } from "react-router-dom";
 
-const NewBookForm = props => {
+const NewBookForm = (props) => {
   const [newBook, setNewBook] = useState({
     title: "",
     author: "",
     genre: "",
     totalPages: "",
     isbn: "",
-    rating: ""
+    rating: "",
   });
   const [errors, setErrors] = useState({});
   const [redirect, setRedirect] = useState(false);
+
   const addNewBook = async () => {
     try {
       const response = await fetch("/api/v1/books", {
         method: "POST",
         headers: new Headers({
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         }),
         body: JSON.stringify(newBook),
       });
       if (!response.ok) {
-
         if (response.status === 422) {
           const data = await response.json();
-          return setErrors(data.errors);
+
+          let validateServerErrors = {};
+
+          data.forEach((errorObject) => {
+            validateServerErrors = {
+              ...validateServerErrors,
+              [errorObject.field]: errorObject.defaultMessage,
+            };
+          });
+
+          return setErrors(validateServerErrors);
         } else {
           const errorMessage = `${response.status} (${response.statusText})`;
           const error = new Error(errorMessage);
-          throw (error);
+          throw error;
         }
       } else {
         const data = await response.json();
@@ -43,13 +53,15 @@ const NewBookForm = props => {
     } catch (error) {
       console.error(`Error in fetch: ${error}`);
     }
-    };
-  const handleInput = event => {
+  };
+
+  const handleInput = (event) => {
     setNewBook({
       ...newBook,
       [event.currentTarget.name]: event.currentTarget.value,
     });
   };
+
   const validateInput = () => {
     let submissionErrors = {};
     const requiredFields = ["title", "author", "genre", "totalPages", "isbn"];
@@ -59,17 +71,20 @@ const NewBookForm = props => {
       }
     });
     setErrors(submissionErrors);
-   return _.isEmpty(submissionErrors);
+    return _.isEmpty(submissionErrors);
   };
-  const handleSubmit = event => {
+
+  const handleSubmit = (event) => {
     event.preventDefault();
     if (validateInput()) {
       addNewBook();
     }
   };
+
   if (redirect) {
     return <Redirect to="/books" />;
   }
+
   return (
     <div>
       <h2>Donate a book:</h2>
